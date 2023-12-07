@@ -1,120 +1,98 @@
-//int goalX = 110;
-//int goalY = 780;
-//int buzzer = 9;
-//boolean toned = false;
-//double distance = -1;
-//
-//void setup(){
-//  Serial.begin(9600);
-//  pinMode(buzzer, OUTPUT);
-//}
-//
-//void loop() {
-
-//  tone(9, 800, 500);
-//  delay(1000);
-//  toned = true;
-//  
-//  
-//  while(toned = true){
-//    
-//  pinMode(A2, OUTPUT); //x-left
-//  pinMode(A3, OUTPUT); //x-right
-//  pinMode(A0, INPUT); //read
-//
-//  analogWrite(A3, 0);
-//  analogWrite(A2, 255);
-//  int x = analogRead(A0);
-//  String printState = "  (" + String(x) + ", ";
-//  Serial.print(printState);
-//  
-//  pinMode(A0, OUTPUT); //y-up
-//  pinMode(A1, OUTPUT); //y-down
-//  pinMode(A2, INPUT); // read
-//
-//  analogWrite(A0, 255);
-//  analogWrite(A1, 0);
-//  int y = analogRead(A2);
-//  String print2 = String(y) + ") ";
-//  Serial.print(print2);
-//
-//  float xdist = sq(x-110);
-//  if (xdist < 0) { xdist = xdist*(-1); }
-//  Serial.print(xdist);
-//
-//  float ydist = sq(y-780);
-//  if (ydist < 0) { ydist = ydist*(-1); }
-//  Serial.print(ydist);
-//
-//  distance = sqrt(xdist+ydist);
-//
-//  if(x >= 2 && y <= 1020){
-//
-//  tone(9, 7*(distance), 1000);
-//  delay(2000);
-//  }
-//  
-//  }
 
 #include <stdint.h>
 #include "TouchScreen.h"
 
-#define YP A2  // must be an analog pin, use "An" notation!
-#define XM A3  // must be an analog pin, use "An" notation!
-#define YM 7   // can be a digital pin
-#define XP 8   // can be a digital pin
+#define YP1 A2  // must be an analog pin, use "An" notation!
+#define XM1 A3  // must be an analog pin, use "An" notation!
+#define YM1 7   // can be a digital pin
+#define XP1 8   // can be a digital pin
 
-// For better pressure precision, we need to know the resistance
-// between X+ and X- Use any multimeter to read it
-// For the one we're using, its 300 ohms across the X plate
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 350);
+#define YP2 A2  // must be an analog pin, use "An" notation!
+#define XM2 A3  // must be an analog pin, use "An" notation!
+#define YM2 7   // can be a digital pin
+#define XP2 8   // can be a digital pin
 
-int goalY = 530;
+#define YP3 A2  // must be an analog pin, use "An" notation!
+#define XM3 A3  // must be an analog pin, use "An" notation!
+#define YM3 7   // can be a digital pin
+#define XP3 8   // can be a digital pin
+
+#define YP4 A2  // must be an analog pin, use "An" notation!
+#define XM4 A3  // must be an analog pin, use "An" notation!
+#define YM4 7   // can be a digital pin
+#define XP4 8   // can be a digital pin
+
+
+
+TouchScreen ts1 = TouchScreen(XP1, YP1, XM1, YM1, 350);
+TouchScreen ts2 = TouchScreen(XP2, YP2, XM2, YM2, 350);
+TouchScreen ts3 = TouchScreen(XP3, YP3, XM3, YM3, 350);
+TouchScreen ts4 = TouchScreen(XP4, YP4, XM4, YM4, 350);
+
+
+
+int goalY[] = {250, 750}; //update after testing
 int distance = -1;
-int buzzer = 2;
+int buzzers[] = {*(0 - 7)*};
 boolean toned = false;
 boolean targetHit = false;
 
 void setup(void) {
   Serial.begin(9600);
-  pinMode(buzzer, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(12, OUTPUT); //expand to all buzzer pins
+  //add pin mode decs. for screens too
 }
 
 void loop(void) {
 
-  tone(buzzer, 800, 2000);
-  delay(1000);
+  int targetBuzzer = random(0, 8);
+  int targetScreen = targetBuzzer / 2 + 1;
+  Serial.print(targetBuzzer);
+  Serial.print(targetScreen);
+  delay(100);
+  tone(buzzers[targetBuzzer], 700, 2000);
+  delay(2500);
   toned = true;
-  
-  while(toned == true) {
-  TSPoint p = ts.getPoint();
-  
-  // we have some minimum pressure we consider 'valid'
-  // pressure of 0 means no pressing!
-  if (p.z > ts.pressureThreshhold) {
-     Serial.print("X = "); Serial.print(p.x);
-     Serial.print("\tY = "); Serial.print(p.y);
-     Serial.print("\tPressure = "); Serial.println(p.z);
+
+  while (toned == true) {
+
+    TSPoint p[] = {ts1.getPoint(), ts2.getPoint(), ts3.getPoint(), ts4.getPoint()};
+
+    if (p[0].z > ts.pressureThreshhold || p[1].z > ts.pressureThreshhold || p[2].z > ts.pressureThreshhold || p[3].z > ts.pressureThreshhold) {
+
+      if (p[targetScreen].z > ts.pressureThreshhold) {
+        Serial.print("X = "); Serial.print(p.x);
+        Serial.print("\tY = "); Serial.print(p.y);
+        Serial.print("\tPressure = "); Serial.println(p.z);
+
+        delay(50);
+
+        int distance = abs(goalY[targetBuzzer] - p.y);
+
+        if (distance <= 10) {
+          tone(buzzers[0], 550, 200);
+          delay(250);
+          tone(buzzers[0], 650, 200);
+          delay(250);
+          tone(buzzers[0], 750, 200);
+          delay(250);
+          toned = false;
+          delay(2000);
+        } else {
+          int freq = map(distance, 500, 0, 200, 1200); //test this
+          tone(buzzers[targetBuzzer], freq, 500);
+          delay(50);
+        }
+      }
+
+      else {
+        tone(buzzers[targetBuzzer], 450, 400);
+        delay(500);
+        tone(buzzers[targetBuzzer], 350, 400);
+        delay(500);
+        delay(1000);
+      }
+    }
   }
-
-  delay(50);
-
-  distance = abs(goalY-p.y);
-
-  if (p.z > ts.pressureThreshhold && distance <= 10) {
-    tone(buzzer, 550, 400);
-    delay(600);
-    tone(buzzer, 650, 400);
-    delay(600);
-    tone(buzzer, 750, 400);
-    delay(600);
-  } else if(p.z > ts.pressureThreshhold) {
-    int freq = map(distance, 0, 500, 200, 800);
-    tone(buzzer, freq, 500);
-    delay(50);
-  } 
-
-  }
-
-  
 }
