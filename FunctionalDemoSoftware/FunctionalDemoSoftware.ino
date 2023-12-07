@@ -35,7 +35,6 @@ int goalY[] = {250, 750}; //update after testing
 int distance = -1;
 int buzzers[] = {*(0 - 7)*};
 boolean toned = false;
-boolean targetHit = false;
 
 void setup(void) {
   Serial.begin(9600);
