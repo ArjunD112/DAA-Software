@@ -30,7 +30,7 @@ TouchScreen ts3 = TouchScreen(XP3, YP3, XM3, YM3, 350);
 TouchScreen ts4 = TouchScreen(XP4, YP4, XM4, YM4, 350);
 
 
-
+int goalX[] = {200, 700}; //update after testing
 int goalY[] = {250, 750}; //update after testing
 int distance = -1;
 int buzzers[] = {2, 3, 4, 5, 6, 7, 8, 9};
@@ -78,7 +78,6 @@ void loop(void) {
   tone(buzzers[targetBuzzer], 700, 2000);
   delay(2500);
   toned = true;
-  int touched = -1;
 
   while (toned == true) {
 
@@ -93,7 +92,7 @@ void loop(void) {
       if (targetScreen == 1) {
 
         TSPoint a = ts1.getPoint();
-        int distance = abs(goalY[targetBuzzer % 2] - a.y);
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
 
         if (distance <= 10) {
           tone(buzzers[targetBuzzer], 550, 200);
@@ -121,7 +120,7 @@ void loop(void) {
       delay(50);
     }
 
-    
+
     if (p[1].z > ts2.pressureThreshhold) {
       Serial.print("X2 = "); Serial.print(p[1].x);
       Serial.print("\tY2 = "); Serial.print(p[1].y);
@@ -130,7 +129,7 @@ void loop(void) {
       if (targetScreen == 2) {
 
         TSPoint a = ts2.getPoint();
-        int distance = abs(goalY[targetBuzzer % 2] - a.y);
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
 
         if (distance <= 10) {
           tone(buzzers[targetBuzzer], 550, 200);
@@ -158,7 +157,7 @@ void loop(void) {
       delay(50);
     }
 
-    
+
     if (p[2].z > ts3.pressureThreshhold) {
       Serial.print("X3 = "); Serial.print(p[2].x);
       Serial.print("\tY3 = "); Serial.print(p[2].y);
@@ -167,7 +166,7 @@ void loop(void) {
       if (targetScreen == 3) {
 
         TSPoint a = ts3.getPoint();
-        int distance = abs(goalY[targetBuzzer % 2] - a.y);
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
 
         if (distance <= 10) {
           tone(buzzers[targetBuzzer], 550, 200);
@@ -195,16 +194,16 @@ void loop(void) {
       delay(50);
     }
 
-    
+
     if (p[3].z > ts4.pressureThreshhold) {
       Serial.print("X4 = "); Serial.print(p[3].x);
       Serial.print("\tY4 = "); Serial.print(p[3].y);
       Serial.print("\tPressure4 = "); Serial.println(p[3].z);
 
-      if (targetScreen == 1) {
+      if (targetScreen == 4) {
 
         TSPoint a = ts4.getPoint();
-        int distance = abs(goalY[targetBuzzer % 2] - a.y);
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
 
         if (distance <= 10) {
           tone(buzzers[targetBuzzer], 550, 200);
