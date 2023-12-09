@@ -30,10 +30,10 @@ TouchScreen ts3 = TouchScreen(XP3, YP3, XM3, YM3, 350);
 TouchScreen ts4 = TouchScreen(XP4, YP4, XM4, YM4, 350);
 
 
-int goalX[] = {200, 700}; //update after testing
-int goalY[] = {250, 750}; //update after testing
+int goalX[] = {300, 750}; //update after testing
+int goalY = 515;
 int distance = -1;
-int buzzers[] = {2, 3, 4, 5, 6, 7, 8, 9};
+int buzzers[] = {2, 3, 5, 4, 6, 7, 8, 9};
 boolean toned = false;
 
 void setup(void) {
@@ -92,19 +92,19 @@ void loop(void) {
       if (targetScreen == 1) {
 
         TSPoint a = ts1.getPoint();
-        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY - a.y) , 2) ));
 
-        if (distance <= 10) {
-          tone(buzzers[targetBuzzer], 550, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 650, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 750, 200);
-          delay(250);
+        if (distance <= 50) {
+          tone(buzzers[targetBuzzer], 550, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 650, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 750, 350);
+          delay(400);
           toned = false;
           delay(2000);
         } else {
-          int freq = map(distance, 500, 0, 200, 1200); //test this
+          int freq = map(distance, 1414, 0, 200, 1200); //test this
           tone(buzzers[targetBuzzer], freq, 500);
           delay(50);
         }
@@ -129,19 +129,19 @@ void loop(void) {
       if (targetScreen == 2) {
 
         TSPoint a = ts2.getPoint();
-        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY - a.y) , 2) ));
 
-        if (distance <= 10) {
-          tone(buzzers[targetBuzzer], 550, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 650, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 750, 200);
-          delay(250);
+        if (distance <= 50) {
+          tone(buzzers[targetBuzzer], 550, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 650, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 750, 350);
+          delay(400);
           toned = false;
           delay(2000);
         } else {
-          int freq = map(distance, 500, 0, 200, 1200); //test this
+          int freq = map(distance, 1414, 0, 200, 1200); //test this
           tone(buzzers[targetBuzzer], freq, 500);
           delay(50);
         }
@@ -166,19 +166,19 @@ void loop(void) {
       if (targetScreen == 3) {
 
         TSPoint a = ts3.getPoint();
-        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY - a.y) , 2) ));
 
-        if (distance <= 10) {
-          tone(buzzers[targetBuzzer], 550, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 650, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 750, 200);
-          delay(250);
+        if (distance <= 50) {
+          tone(buzzers[targetBuzzer], 550, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 650, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 750, 350);
+          delay(400);
           toned = false;
           delay(2000);
         } else {
-          int freq = map(distance, 500, 0, 200, 1200); //test this
+          int freq = map(distance, 1414, 0, 200, 1200); //test this
           tone(buzzers[targetBuzzer], freq, 500);
           delay(50);
         }
@@ -203,19 +203,19 @@ void loop(void) {
       if (targetScreen == 4) {
 
         TSPoint a = ts4.getPoint();
-        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY[targetBuzzer % 2] - a.y) , 2) ));
+        double distance = sqrt(abs( pow( (goalX[targetBuzzer % 2] - a.x) , 2) + pow( (goalY - a.y) , 2) ));
 
-        if (distance <= 10) {
-          tone(buzzers[targetBuzzer], 550, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 650, 200);
-          delay(250);
-          tone(buzzers[targetBuzzer], 750, 200);
-          delay(250);
+        if (distance <= 50) {
+          tone(buzzers[targetBuzzer], 550, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 650, 350);
+          delay(400);
+          tone(buzzers[targetBuzzer], 750, 350);
+          delay(400);
           toned = false;
           delay(2000);
         } else {
-          int freq = map(distance, 500, 0, 200, 1200); //test this
+          int freq = map(distance, 1414, 0, 200, 1200); //test this
           tone(buzzers[targetBuzzer], freq, 500);
           delay(50);
         }
